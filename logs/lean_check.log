@@ -1,0 +1,13 @@
+== formal-conjectures commit: ab0addc45f699bdd0b7cc58efa5140a72f101a9e
+== statement file git blob: 92bbac8517108df8acc0fb97d58e0464b685ce6e  (pull request 4946: 92bbac85...)
+== 1. Statement.lean (unmodified pull-request file, repository options)
+== compiling Core.lean
+== compiling Solution.lean
+== CheckAnswer.lean (definitions agree; type check against the repository statement; axioms)
+OeisA363414.conjecture_type1_empty : ∀ (p : ℕ), Nat.Prime p → ∃ n, 0 < n ∧ ↑p ∣ OeisA363414.a n
+OeisA363414.conjecture_type1_empty_solved : ∀ (p : ℕ), Nat.Prime p → ∃ n, 0 < n ∧ ↑p ∣ OeisA363414.a n
+'OeisA363414.conjecture_type1_empty_solved' depends on axioms: [propext, Classical.choice, Quot.sound]
+== forbidden keywords (sorry/admit/native_decide/axiom) outside the statement file:
+none
+== done
+== exit 0, 104 s

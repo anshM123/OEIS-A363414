@@ -1,0 +1,26 @@
+{
+  "title": "Every prime divides a term of OEIS A363414",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "description": "Let a(n) = Im(prod_{k=0..n} (1 + 2k i))/2 (OEIS A363414). Peter Bala conjectured that every prime divides some term a(n) with n > 0. We prove that p divides a(p-1) for every odd prime p, and a(3) = -18: reversing the order of the factors shows that the product is congruent to its complex conjugate modulo p. The proof is formalized in Lean 4 with Mathlib against the statement OeisA363414.conjecture_type1_empty of Google DeepMind's Formal Conjectures repository. The repository contains the paper (LaTeX source and PDF), the Lean files, a check script, exact checks and logs.",
+  "creators": [
+    {
+      "name": "Mishra, Ansh"
+    },
+    {
+      "name": "Senthilkumar, Aryan"
+    }
+  ],
+  "license": "mit",
+  "access_right": "open",
+  "keywords": [
+    "OEIS A363414",
+    "Gaussian integers",
+    "finite fields",
+    "Formal Conjectures",
+    "Lean 4",
+    "formal verification"
+  ],
+  "version": "1.0",
+  "language": "eng"
+}

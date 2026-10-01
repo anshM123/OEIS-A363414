@@ -1,0 +1,95 @@
+\documentclass[11pt]{amsart}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\lean}[1]{\texttt{#1}}
+\setlength{\emergencystretch}{3em}
+
+\begin{document}
+
+\title[Every prime divides a term of A363414]{Every prime divides a term of OEIS A363414}
+
+\author{Ansh Mishra}
+\author{Aryan Senthilkumar}
+
+\date{October 2026}
+
+\begin{abstract}
+Let $a(n)=\frac12\operatorname{Im}\prod_{k=0}^n(1+2ki)$ (OEIS A363414).
+Bala conjectured that every prime divides some term $a(n)$ with $n>0$, that is, that there are no primes of ``type~1'' for this sequence.
+We prove this: $p\mid a(p-1)$ for every odd prime $p$, and $a(3)=-18$.
+The proof is two lines.
+It is formalized in Lean~4 with Mathlib, against the statement \lean{OeisA363414.conjecture\_type1\_empty} in Google DeepMind's Formal Conjectures repository.
+\end{abstract}
+
+\maketitle
+
+\section{The result}
+
+Let $P_n=\prod_{k=0}^{n}(1+2ki)\in\Z[i]$.
+Every factor is $\equiv1\pmod{2\Z[i]}$, so $P_n\equiv1\pmod 2$ and $\operatorname{Im}P_n$ is even.
+The sequence A363414 \cite{OEIS} is $a(n)=\frac12\operatorname{Im}P_n$; it begins $0,1,3,-18,-190,\dots$.
+Following Moll's classification of primes for related sequences, Bala calls a prime of \emph{type~1} if it divides no term $a(n)$ with $n>0$.
+He conjectured that there are no type~1 primes.
+The conjecture is stated in \cite{FC} as \lean{OeisA363414.conjecture\_type1\_empty}: for every prime $p$ there is $n>0$ with $p\mid a(n)$.
+
+\begin{theorem}\label{thm}
+For every odd prime $p$, $p\mid a(p-1)$.
+Moreover $a(3)=-18$.
+Hence every prime divides some $a(n)$ with $n>0$.
+\end{theorem}
+
+\begin{proof}
+Let $p$ be odd and work in $R=\Z[i]/p\Z[i]$.
+Reversing the order of the factors, $k\mapsto p-1-k$, gives
+\[
+P_{p-1}=\prod_{k=0}^{p-1}\bigl(1+2(p-1-k)i\bigr)\equiv\prod_{k=0}^{p-1}\bigl(1-2(k+1)i\bigr)=\prod_{j=1}^{p}(1-2ji)\equiv\prod_{j=0}^{p-1}(1-2ji)=\overline{P_{p-1}}\pmod p .
+\]
+The second congruence holds because the factor for $j=p$ is $\equiv1$, as is the factor for $j=0$.
+Hence $p$ divides $P_{p-1}-\overline{P_{p-1}}=2i\operatorname{Im}P_{p-1}=4i\,a(p-1)$ in $\Z[i]$.
+Since $p$ is odd, $p\mid a(p-1)$, and $p-1\ge2>0$.
+Finally, $P_3=(1+2i)(1+4i)(1+6i)=-43-36i$, so $a(3)=-18$, which is even.
+\end{proof}
+
+\begin{remark}
+The value of $P_{p-1}$ modulo $p$ can be computed exactly.
+In $\F_p[X]$ we have $\prod_{t\in\F_p}(X-t)=X^p-X$.
+Substitute $X=-\iota^{-1}$, where $\iota$ is the image of $i$ in $R$, and multiply by $(-\iota)^p$.
+This gives $\prod_{t\in\F_p}(1+t\iota)=1-\iota^{p-1}=1-(-1)^{(p-1)/2}$.
+As $2k$ runs over all residues modulo $p$, we get $P_{p-1}\equiv1-(-1)^{(p-1)/2}\pmod p$, which is $0$ for $p\equiv1$ and $2$ for $p\equiv3\pmod4$.
+The same computation with $\sqrt{-d}$ in place of $i$ gives the analogous statement for $\prod(1+k\sqrt{-d})$ and every prime $p\nmid2d$.
+\end{remark}
+
+\begin{remark}
+The companion conjecture \lean{conjecture\_type2\_asymptotics}, that $v_p(a(n))\sim n/(p-1)$ for $p\equiv1\pmod4$, is not addressed here.
+\end{remark}
+
+\section{Formalization}
+
+The theorem is formalized in Lean~4 with Mathlib.
+The statement file of \cite{FC} is included unmodified.
+\lean{OeisA363414.conjecture\_type1\_empty\_solved} has the type of the repository statement, which is checked by \lean{rfl}.
+The formal proof follows the reversal argument above.
+It maps the complex product to the Gaussian integers, and it evaluates $a(3)$ with \lean{norm\_num}.
+It depends only on the axioms \lean{propext}, \lean{Classical.choice} and \lean{Quot.sound}.
+Independently we checked the congruence $P_{p-1}\equiv1-(-1)^{(p-1)/2}\pmod p$ for all odd primes $p<20000$, and $p\mid a(p-1)$ with exact Gaussian integers for $p<400$.
+
+\begin{thebibliography}{9}
+
+\bibitem{FC}
+Google DeepMind, \emph{Formal Conjectures}, \url{https://github.com/google-deepmind/formal-conjectures}; the statement is in \texttt{FormalConjectures/OEIS/363414.lean}, pull request 4946 (2026).
+
+\bibitem{OEIS}
+OEIS Foundation Inc., \emph{The On-Line Encyclopedia of Integer Sequences}, \url{https://oeis.org/A363414}.
+
+\end{thebibliography}
+
+\end{document}
